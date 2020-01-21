@@ -16,9 +16,9 @@ const user = new mongoose.Schema({
         required: true,
         unique: 50
     },
-    hash_password:{
+    password_hashed: {
         type: String,
-        required: true,
+        required: true
     },
     bio:{
         type: String,
@@ -41,39 +41,33 @@ const user = new mongoose.Schema({
 { timestamps: true }
 );
 
-user
-.virtual('password')
-.set(function(password) {
-    this._password = password;
-    this.salt = uuidv1();
-    this.password_hashed = this.encryptPassword(password);
-})
-.get(function() {
-    return this._password;
-});
+     user
+    .virtual('password')
+    .set(function(password) {
+        this._password = password;
+        this.salt = uuidv1();
+        this.password_hashed = this.encryptPassword(password);
+    })
+    .get(function() {
+        return this._password;
+    });
 
-user.methods = {
-    authenticate: function(plainText) {
-        return this.encryptPassword(plainText) === this.password_hashed;
-    },
-
-    encryptPassword: function(password) {
-        if (!password) return '';
-        try {
-            return crypto
-                .createHmac('sha1', this.salt)
-                .update(password)
-                .digest('hex');
-        } catch (err) {
-            return '';
+    user.methods = {
+        authenticate: function(plainText) {
+            return this.encryptPassword(plainText) === this.password_hashed;
+        },
+    
+        encryptPassword: function(password) {
+            if (!password) return '';
+            try {
+                return crypto
+                    .createHmac('sha1', this.salt)
+                    .update(password)
+                    .digest('hex');
+            } catch (err) {
+                return '';
+            }
         }
-    }
-};
+    };
 
-module.exports = mongoose.model('User', user);
-
-
-
-
-
-
+    module.exports = mongoose.model('User', user);
