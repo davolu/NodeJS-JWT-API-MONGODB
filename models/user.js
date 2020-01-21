@@ -20,11 +20,10 @@ const user = new mongoose.Schema({
         type: String,
         required: true
     },
-    bio:{
+    about:{
         type: String,
         trim: true,
-        required: true,
-        maxlength: 160
+         maxlength: 160
     },
     salt: String,
     role: {
