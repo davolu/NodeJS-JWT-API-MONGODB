@@ -5,7 +5,9 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator')
-const users = require('./routes/user');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+
 require('dotenv').config();
     
 //connect to mongo db
@@ -26,11 +28,11 @@ mongoose.connect(
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(expressValidator());
- 
- 
+   
   //routes middleware
-  app.use('/api',users);
- 
+  app.use('/api',authRoutes);
+  app.use('/api',userRoutes);
+
  
    
  
