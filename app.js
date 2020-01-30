@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator')
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const categoryRoutes = require('./routes/category');
 
 require('dotenv').config();
     
@@ -32,8 +33,11 @@ mongoose.connect(
   //routes middleware
   app.use('/api',authRoutes);
   app.use('/api',userRoutes);
+  app.use('/api',categoryRoutes);
 
+  
  
+   
    
  
 
